@@ -1,0 +1,1005 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0a0d0b">
+<meta name="description" content="MotoCheck Pro — Gestão de motos, combustível e manutenção.">
+<title>MotoCheck Pro | Racing Edition</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root{
+  --bg:#090c0a;
+  --panel:#111612;
+  --panel2:#171e18;
+  --line:#29332a;
+  --green:#c1ff72;
+  --green2:#93d944;
+  --text:#f0f5ee;
+  --muted:#89958a;
+  --red:#ff6464;
+  --orange:#ffb454;
+  --radius:19px;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:Inter,Arial,sans-serif;font-size:14px;
+  -webkit-tap-highlight-color:transparent;
+}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+button:focus-visible,input:focus-visible,select:focus-visible{
+  outline:2px solid var(--green);outline-offset:2px
+}
+.app{max-width:1200px;margin:auto;min-height:100dvh;padding-bottom:92px}
+header{
+  position:sticky;top:0;z-index:20;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 20px;background:rgba(9,12,10,.94);
+  border-bottom:1px solid var(--line);backdrop-filter:blur(18px)
+}
+.brand{display:flex;align-items:center;gap:11px}
+.brand-icon{
+  display:grid;place-items:center;width:43px;height:43px;
+  border-radius:13px;background:var(--green);color:#10150b;
+  font-size:23px;font-weight:900
+}
+.brand-name{font-size:17px;font-weight:900;letter-spacing:-.7px}
+.brand-sub{font-size:9px;color:var(--green);letter-spacing:2px;margin-top:3px}
+.header-right{display:flex;gap:8px;align-items:center}
+.status{
+  color:var(--green);font-size:10px;font-weight:800;
+  background:#192419;padding:8px 10px;border-radius:30px
+}
+.icon-btn{
+  width:39px;height:39px;background:var(--panel);color:white;
+  border:1px solid var(--line);border-radius:12px;font-size:18px
+}
+main{padding:20px}
+.page{display:none;animation:appear .2s ease}
+.page.active{display:block}
+@keyframes appear{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.page-heading{margin:2px 0 20px}
+.eyebrow{font-size:10px;color:var(--green);font-weight:800;letter-spacing:2px;text-transform:uppercase}
+h1,h2,h3,p{margin-top:0}
+h1{font-size:30px;letter-spacing:-1.4px;margin:8px 0}
+h2{font-size:19px;letter-spacing:-.5px;margin-bottom:5px}
+h3{font-size:15px;margin-bottom:8px}
+p{line-height:1.6}
+.muted{color:var(--muted)}
+.small{font-size:11px}
+.section-title{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:25px 0 13px}
+.section-title h2{margin:0}
+.btn{
+  border:0;border-radius:12px;padding:12px 15px;font-weight:800;
+  display:inline-flex;justify-content:center;align-items:center;gap:7px;
+  transition:.15s
+}
+.btn:active{transform:scale(.98)}
+.btn-primary{background:var(--green);color:#11170b}
+.btn-secondary{background:var(--panel2);border:1px solid var(--line);color:var(--text)}
+.btn-danger{background:#321b1b;border:1px solid #603030;color:#ff9292}
+.btn-sm{padding:9px 11px;font-size:11px;border-radius:10px}
+.full{width:100%}
+.panel{
+  background:linear-gradient(145deg,#151c16,#101410);
+  border:1px solid var(--line);border-radius:var(--radius);padding:17px;
+  min-width:0
+}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.metric{position:relative;overflow:hidden;min-height:120px}
+.metric-label{font-size:11px;color:var(--muted);font-weight:600}
+.metric-value{
+  font-family:'Barlow Condensed',sans-serif;font-size:34px;
+  font-weight:800;letter-spacing:-.5px;margin:12px 0 5px;line-height:1
+}
+.metric-value small{font:600 13px Inter,sans-serif;color:var(--muted)}
+.metric-foot{font-size:10px;color:var(--muted)}
+.metric-icon{position:absolute;right:15px;top:14px;font-size:19px;opacity:.8}
+.green{color:var(--green)}
+.orange{color:var(--orange)}
+.red{color:var(--red)}
+.hero{
+  overflow:hidden;position:relative;min-height:270px;border-radius:24px;
+  border:1px solid #344333;
+  background:#141b15;margin-bottom:15px
+}
+.hero-image{
+  position:absolute;inset:0;
+  background:
+    linear-gradient(90deg,rgba(8,12,9,.97) 0%,rgba(8,12,9,.78) 45%,rgba(8,12,9,.08) 100%),
+    linear-gradient(0deg,rgba(8,12,9,.8),transparent 65%),
+    url('https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=1400&q=85') center/cover;
+  opacity:.94
+}
+.hero-content{position:relative;padding:24px;max-width:510px}
+.hero-tag{
+  display:inline-flex;padding:6px 9px;border:1px solid #647e48;
+  background:#172215;border-radius:7px;color:var(--green);
+  font-size:9px;font-weight:900;letter-spacing:1.5px
+}
+.hero h1{font-family:'Barlow Condensed',sans-serif;font-size:39px;line-height:1.02;margin:15px 0 7px;text-transform:uppercase;letter-spacing:.2px}
+.hero p{font-size:12px;color:#c3cec0;margin-bottom:16px}
+.hero-stats{display:flex;gap:23px;margin:18px 0}
+.hero-stat strong{display:block;font-family:'Barlow Condensed',sans-serif;font-size:25px}
+.hero-stat span{display:block;color:#b2beb0;font-size:9px;margin-top:3px}
+.hero-actions{display:flex;flex-wrap:wrap;gap:8px}
+.progress-track{height:6px;background:#263027;border-radius:8px;overflow:hidden;margin:12px 0}
+.progress-bar{height:100%;background:var(--green);border-radius:8px;transition:width .2s}
+.list{display:flex;flex-direction:column;gap:0}
+.list-item{display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid var(--line)}
+.list-item:last-child{border-bottom:0}
+.list-icon{width:39px;height:39px;flex-shrink:0;display:grid;place-items:center;background:#202a20;border-radius:12px;font-size:17px}
+.list-info{flex:1;min-width:0}
+.list-info strong{display:block;font-size:12px;overflow-wrap:anywhere}
+.list-info span{font-size:10px;color:var(--muted);display:block;margin-top:5px}
+.list-end{text-align:right;font-size:12px;font-weight:800}
+.pill{display:inline-block;padding:5px 8px;border-radius:6px;font-size:9px;font-weight:800;background:#253023;color:var(--green)}
+.pill-warn{background:#35291b;color:var(--orange)}
+.pill-danger{background:#351d1d;color:#ff9090}
+.empty{text-align:center;padding:28px 12px;color:var(--muted);font-size:12px}
+.empty-icon{font-size:28px;margin-bottom:12px}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.field{display:flex;flex-direction:column;gap:7px;min-width:0}
+.field.full-field{grid-column:1/-1}
+.field label{font-size:11px;color:#b7c1b5;font-weight:700}
+.field input,.field select,.field textarea{
+  width:100%;min-width:0;border-radius:11px;border:1px solid var(--line);
+  padding:12px;background:#0c100d;color:var(--text);outline:none
+}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--green)}
+.field textarea{resize:vertical;min-height:75px}
+.form-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.tabs{
+  display:flex;gap:7px;overflow-x:auto;padding:4px 0 12px;
+  scrollbar-width:none
+}
+.tabs::-webkit-scrollbar{display:none}
+.tab{
+  white-space:nowrap;border:1px solid var(--line);background:var(--panel);
+  color:var(--muted);border-radius:10px;padding:10px 13px;font-size:11px;font-weight:800
+}
+.tab.active{background:var(--green);border-color:var(--green);color:#11170b}
+.garage-photo{
+  position:relative;overflow:hidden;height:245px;border-radius:18px;
+  background:#151b16;margin-bottom:16px
+}
+.garage-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.garage-photo:after{content:"";position:absolute;inset:35% 0 0;background:linear-gradient(transparent,rgba(8,12,9,.9))}
+.photo-label{position:absolute;z-index:2;left:16px;bottom:16px}
+.photo-label strong{font-family:'Barlow Condensed',sans-serif;font-size:27px;text-transform:uppercase}
+.photo-label span{display:block;font-size:10px;color:#c8d3c4;margin-top:4px}
+.motorcycle-specs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.spec{padding:13px 8px;text-align:center;background:#0d120e;border:1px solid var(--line);border-radius:12px;min-width:0}
+.spec strong{display:block;font-family:'Barlow Condensed',sans-serif;font-size:22px;overflow-wrap:anywhere}
+.spec span{display:block;color:var(--muted);font-size:9px;margin-top:4px}
+.check-row{display:flex;align-items:center;gap:11px;padding:13px 0;border-bottom:1px solid var(--line)}
+.check-row:last-child{border:0}
+.check-row input{width:19px;height:19px;accent-color:var(--green);flex-shrink:0}
+.check-row span{flex:1;font-size:12px}
+.check-row small{font-size:10px;color:var(--muted)}
+.chart{height:175px;width:100%;display:block}
+.chart-legend{display:flex;gap:14px;flex-wrap:wrap;font-size:10px;color:var(--muted)}
+.legend-dot{display:inline-block;width:8px;height:8px;background:var(--green);border-radius:3px;margin-right:5px}
+.setting-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:15px 0;border-bottom:1px solid var(--line)}
+.setting-row:last-child{border-bottom:0}
+.setting-row strong{font-size:12px;display:block}
+.setting-row span{font-size:10px;color:var(--muted);display:block;margin-top:4px}
+.setting-row input[type=checkbox]{accent-color:var(--green);width:20px;height:20px}
+footer{text-align:center;color:#667267;font-size:10px;padding:22px}
+.bottom-nav{
+  position:fixed;bottom:0;left:0;right:0;z-index:30;
+  display:grid;grid-template-columns:repeat(3,1fr);
+  padding:9px 8px max(9px,env(safe-area-inset-bottom));
+  background:rgba(11,15,12,.96);backdrop-filter:blur(20px);
+  border-top:1px solid var(--line)
+}
+.nav-btn{
+  background:transparent;border:0;color:#89958a;
+  display:flex;flex-direction:column;align-items:center;gap:5px;
+  padding:6px 3px;font-size:10px;font-weight:700
+}
+.nav-btn .nav-icon{font-size:21px}
+.nav-btn.active{color:var(--green)}
+.toast{
+  position:fixed;z-index:100;bottom:95px;left:50%;
+  transform:translateX(-50%);padding:13px 17px;
+  background:var(--green);color:#10160b;border-radius:12px;
+  font-size:12px;font-weight:800;box-shadow:0 8px 30px #0008;
+  max-width:90%;text-align:center
+}
+dialog{
+  width:min(520px,calc(100% - 28px));max-height:85dvh;
+  overflow:auto;background:#111712;color:var(--text);
+  border:1px solid var(--line);border-radius:22px;padding:21px
+}
+dialog::backdrop{background:#000b;backdrop-filter:blur(5px)}
+.dialog-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.dialog-head h2{margin:0}
+@media(min-width:760px){
+  .app{padding-bottom:20px}
+  main{padding:28px}
+  .bottom-nav{position:static;max-width:1200px;margin:auto;border:1px solid var(--line);border-radius:16px;padding:7px;margin-bottom:15px;display:flex;justify-content:center}
+  .nav-btn{flex-direction:row;gap:9px;padding:12px 25px}
+  .grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .hero{min-height:310px}
+  .hero-content{padding:30px}
+  .hero h1{font-size:49px}
+  .garage-photo{height:350px}
+  .dashboard-columns{display:grid;grid-template-columns:1.2fr .8fr;gap:14px;align-items:start}
+}
+@media(max-width:380px){
+  main{padding:14px}
+  header{padding:12px 14px}
+  .brand-name{font-size:15px}
+  .status{font-size:9px;padding:7px}
+  .hero-content{padding:18px}
+  .hero h1{font-size:33px}
+  .form-grid{grid-template-columns:1fr}
+  .field.full-field{grid-column:auto}
+  .metric-value{font-size:29px}
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+<header>
+  <div class="brand">
+    <div class="brand-icon">M</div>
+    <div>
+      <div class="brand-name">MotoCheck Pro</div>
+      <div class="brand-sub">RACING EDITION</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <span class="status">● DADOS LOCAIS</span>
+    <button class="icon-btn" aria-label="Configurações" onclick="navigate('settings')">⚙</button>
+  </div>
+</header>
+
+<main>
+<!-- DASHBOARD -->
+<section class="page active" id="page-dashboard">
+  <div class="page-heading">
+    <div class="eyebrow">Painel de controle / 01</div>
+    <h1>Seu cockpit.</h1>
+    <p class="muted">Tudo sobre sua moto em um só lugar.</p>
+  </div>
+
+  <div class="hero">
+    <div class="hero-image"></div>
+    <div class="hero-content">
+      <span class="hero-tag">GARAGEM PRINCIPAL</span>
+      <h1 id="heroName">Yamaha Fazer 150</h1>
+      <p id="heroDescription">Sua moto. Seus dados. Seu controle.</p>
+      <div class="hero-stats">
+        <div class="hero-stat"><strong id="heroKm">--</strong><span>QUILOMETRAGEM · KM</span></div>
+        <div class="hero-stat"><strong id="heroYear">2020</strong><span>ANO</span></div>
+      </div>
+      <div class="hero-actions">
+        <button class="btn btn-primary" onclick="navigate('garage')">Ver minha moto ↗</button>
+        <button class="btn btn-secondary" onclick="openRecord('fuel')">＋ Abastecer</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="panel metric">
+      <span class="metric-icon">⛽</span>
+      <div class="metric-label">Consumo médio</div>
+      <div class="metric-value"><span id="avgConsumption">--</span> <small>km/L</small></div>
+      <div class="metric-foot">Baseado nos abastecimentos registrados</div>
+    </div>
+    <div class="panel metric">
+      <span class="metric-icon">◉</span>
+      <div class="metric-label">Preço por litro</div>
+      <div class="metric-value">R$ <span id="lastPrice">--</span></div>
+      <div class="metric-foot">Último abastecimento registrado</div>
+    </div>
+    <div class="panel metric">
+      <span class="metric-icon">↗</span>
+      <div class="metric-label">Gasto no mês</div>
+      <div class="metric-value">R$ <span id="monthSpend">0,00</span></div>
+      <div class="metric-foot">Combustível + manutenção</div>
+    </div>
+    <div class="panel metric">
+      <span class="metric-icon">⌁</span>
+      <div class="metric-label">Custo por km</div>
+      <div class="metric-value">R$ <span id="costKm">--</span></div>
+      <div class="metric-foot">Combustível + serviços registrados</div>
+    </div>
+  </div>
+
+  <div class="dashboard-columns">
+    <div>
+      <div class="section-title">
+        <h2>Gastos com combustível</h2>
+        <span class="pill">6 MESES</span>
+      </div>
+      <div class="panel">
+        <canvas id="fuelChart" class="chart" aria-label="Gráfico de gastos com combustível"></canvas>
+        <div class="chart-legend"><span><i class="legend-dot"></i>Gastos mensais</span></div>
+      </div>
+      <div class="section-title"><h2>Atividade recente</h2><button class="btn btn-secondary btn-sm" onclick="navigate('garage');setGarageTab('fuel')">Ver tudo</button></div>
+      <div class="panel" id="recentActivity"></div>
+    </div>
+    <div>
+      <div class="section-title"><h2>Próximas manutenções</h2><button class="btn btn-secondary btn-sm" onclick="navigate('garage');setGarageTab('maintenance')">Ver tudo</button></div>
+      <div class="panel" id="maintenancePreview"></div>
+      <div class="section-title"><h2>Acesso rápido</h2></div>
+      <div class="grid">
+        <button class="panel" style="text-align:left;color:var(--text)" onclick="openRecord('fuel')"><div class="green" style="font-size:23px">＋</div><strong>Abastecimento</strong><div class="muted small" style="margin-top:7px">Registrar combustível</div></button>
+        <button class="panel" style="text-align:left;color:var(--text)" onclick="openRecord('maintenance')"><div class="green" style="font-size:23px">⚒</div><strong>Manutenção</strong><div class="muted small" style="margin-top:7px">Registrar serviço</div></button>
+        <button class="panel" style="text-align:left;color:var(--text)" onclick="navigate('garage');setGarageTab('checklist')"><div class="green" style="font-size:23px">☑</div><strong>Checklist</strong><div class="muted small" style="margin-top:7px">Preparar viagem</div></button>
+        <button class="panel" style="text-align:left;color:var(--text)" onclick="exportData()"><div class="green" style="font-size:23px">↗</div><strong>Backup</strong><div class="muted small" style="margin-top:7px">Exportar dados</div></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GARAGEM -->
+<section class="page" id="page-garage">
+  <div class="page-heading">
+    <div class="eyebrow">Minha garagem / 02</div>
+    <h1>Máquina em foco.</h1>
+    <p class="muted">Gerencie a moto, o combustível e cada manutenção.</p>
+  </div>
+
+  <div class="panel" style="margin-bottom:16px">
+    <div class="garage-photo">
+      <img id="motorcyclePhoto" src="https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=1200&q=85" alt="Fotografia ilustrativa de motocicleta" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#253326,#0a0d0a)'">
+      <div class="photo-label"><strong id="garageName">Yamaha Fazer 150</strong><span id="garageSubtitle">RACING GARAGE · MINHA MOTO</span></div>
+    </div>
+    <div class="motorcycle-specs">
+      <div class="spec"><strong id="garageYear">2020</strong><span>ANO</span></div>
+      <div class="spec"><strong id="garageOdo">--</strong><span>KM ATUAIS</span></div>
+      <div class="spec"><strong id="garageFuel">Gasolina</strong><span>COMBUSTÍVEL</span></div>
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-primary" onclick="openRecord('fuel')">＋ Abastecimento</button>
+      <button class="btn btn-secondary" onclick="openRecord('maintenance')">＋ Manutenção</button>
+      <button class="btn btn-secondary" onclick="openRecord('bike')">✎ Editar moto</button>
+    </div>
+  </div>
+
+  <div class="tabs" id="garageTabs">
+    <button class="tab active" data-tab="fuel" onclick="setGarageTab('fuel')">⛽ Abastecimentos</button>
+    <button class="tab" data-tab="maintenance" onclick="setGarageTab('maintenance')">⚒ Manutenção</button>
+    <button class="tab" data-tab="checklist" onclick="setGarageTab('checklist')">☑ Checklist</button>
+  </div>
+
+  <div id="garage-fuel" class="garage-content">
+    <div class="section-title"><h2>Histórico de abastecimento</h2><span id="fuelCount" class="pill">0 REGISTROS</span></div>
+    <div class="panel" id="fuelList"></div>
+  </div>
+  <div id="garage-maintenance" class="garage-content" style="display:none">
+    <div class="section-title"><h2>Histórico de manutenção</h2><button class="btn btn-primary btn-sm" onclick="openRecord('maintenance')">＋ Registrar</button></div>
+    <div class="panel" id="maintenanceList"></div>
+  </div>
+  <div id="garage-checklist" class="garage-content" style="display:none">
+    <div class="section-title"><h2>Checklist pré-viagem</h2><span id="checkProgress" class="pill">0/10</span></div>
+    <div class="panel">
+      <p class="muted small">Confira os itens antes de sair. O progresso fica salvo neste aparelho.</p>
+      <div id="checklistItems"></div>
+      <div class="progress-track"><div class="progress-bar" id="checkBar" style="width:0%"></div></div>
+      <div class="form-actions">
+        <button class="btn btn-primary" onclick="saveChecklist()">Salvar checklist</button>
+        <button class="btn btn-secondary" onclick="resetChecklist()">Desmarcar tudo</button>
+      </div>
+    </div>
+    <p class="muted small" style="margin-top:12px">O checklist é um auxílio e não substitui inspeções técnicas nem os requisitos legais de circulação.</p>
+  </div>
+</section>
+
+<!-- CONFIGURAÇÕES -->
+<section class="page" id="page-settings">
+  <div class="page-heading">
+    <div class="eyebrow">Personalização / 03</div>
+    <h1>Configurações.</h1>
+    <p class="muted">Personalize sua moto e proteja seus registros.</p>
+  </div>
+
+  <div class="section-title"><h2>Dados da motocicleta</h2></div>
+  <div class="panel">
+    <form id="bikeForm">
+      <div class="form-grid">
+        <div class="field full-field"><label for="bikeName">Marca e modelo</label><input id="bikeName" required placeholder="Ex.: Yamaha Fazer 150"></div>
+        <div class="field"><label for="bikeYear">Ano</label><input id="bikeYear" type="number" min="1950" max="2100" required></div>
+        <div class="field"><label for="bikeOdo">Quilometragem atual</label><input id="bikeOdo" type="number" min="0" step="1" required></div>
+        <div class="field"><label for="bikeFuel">Combustível</label><select id="bikeFuel"><option>Gasolina</option><option>Etanol</option><option>Flex</option><option>Diesel</option><option>Elétrico</option></select></div>
+        <div class="field"><label for="bikePlate">Placa (opcional)</label><input id="bikePlate" maxlength="10" placeholder="ABC1D23"></div>
+        <div class="field full-field"><label for="bikePhoto">URL da foto (opcional)</label><input id="bikePhoto" type="url" placeholder="https://..."><span class="muted small">Use um endereço de imagem acessível pela internet. A imagem padrão é ilustrativa.</span></div>
+      </div>
+      <div class="form-actions"><button class="btn btn-primary" type="submit">Salvar motocicleta</button></div>
+    </form>
+  </div>
+
+  <div class="section-title"><h2>Preferências</h2></div>
+  <div class="panel">
+    <div class="setting-row"><div><strong>Notificações de manutenção</strong><span>Exibir avisos de revisões cadastradas</span></div><input id="maintenanceAlerts" type="checkbox" checked onchange="savePreferences()"></div>
+    <div class="setting-row"><div><strong>Confirmação antes de excluir</strong><span>Evitar remoções acidentais</span></div><input id="confirmDelete" type="checkbox" checked onchange="savePreferences()"></div>
+    <div class="setting-row"><div><strong>Unidade de distância</strong><span>Quilômetros (km)</span></div><span class="pill">KM</span></div>
+    <div class="setting-row"><div><strong>Moeda</strong><span>Real brasileiro</span></div><span class="pill">BRL · R$</span></div>
+  </div>
+
+  <div class="section-title"><h2>Dados e backup</h2></div>
+  <div class="panel">
+    <p class="muted small">Seus registros são guardados no armazenamento local deste navegador. Exporte um backup regularmente, principalmente antes de limpar os dados do navegador ou trocar de aparelho.</p>
+    <div class="form-actions">
+      <button class="btn btn-primary" onclick="exportData()">⇩ Exportar backup JSON</button>
+      <button class="btn btn-secondary" onclick="document.getElementById('importFile').click()">⇧ Importar backup</button>
+      <input type="file" id="importFile" accept=".json,application/json" hidden onchange="importData(event)">
+    </div>
+    <div class="setting-row"><div><strong>Registros de abastecimento</strong><span id="settingFuelCount">0 registros</span></div></div>
+    <div class="setting-row"><div><strong>Registros de manutenção</strong><span id="settingMaintCount">0 registros</span></div></div>
+    <div class="setting-row"><div><strong>Armazenamento</strong><span>LocalStorage · sem conta</span></div><span class="pill">LOCAL</span></div>
+  </div>
+  <div class="section-title"><h2>Zona de risco</h2></div>
+  <div class="panel">
+    <p class="muted small">Apaga os registros salvos pelo MotoCheck Pro neste navegador. Faça um backup antes de continuar.</p>
+    <button class="btn btn-danger" onclick="clearAllData()">Apagar todos os dados</button>
+  </div>
+</section>
+</main>
+
+<nav class="bottom-nav" aria-label="Navegação principal">
+  <button class="nav-btn active" data-page="dashboard" onclick="navigate('dashboard')"><span class="nav-icon">▦</span>Dashboard</button>
+  <button class="nav-btn" data-page="garage" onclick="navigate('garage')"><span class="nav-icon">🏍</span>Garagem</button>
+  <button class="nav-btn" data-page="settings" onclick="navigate('settings')"><span class="nav-icon">⚙</span>Configurações</button>
+</nav>
+<footer>MOTOCHECK PRO · RACING EDITION · SEUS DADOS, SEU CONTROLE</footer>
+</div>
+
+<!-- MODAL DE CADASTRO -->
+<dialog id="recordDialog">
+  <div class="dialog-head"><h2 id="dialogTitle">Novo registro</h2><button class="icon-btn" onclick="closeDialog()" aria-label="Fechar">✕</button></div>
+  <form id="recordForm">
+    <div id="recordFields"></div>
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary" id="recordSubmit">Salvar registro</button>
+      <button type="button" class="btn btn-secondary" onclick="closeDialog()">Cancelar</button>
+    </div>
+  </form>
+</dialog>
+
+<script>
+'use strict';
+
+const STORAGE_KEY = 'motocheck_pro_racing_v1';
+const CHECK_ITEMS = [
+  'Pneus e calibragem',
+  'Freios dianteiro e traseiro',
+  'Farol alto e baixo',
+  'Lanternas e luz de freio',
+  'Setas e buzina',
+  'Óleo do motor',
+  'Corrente, tensão e lubrificação',
+  'Combustível suficiente',
+  'Documentos e habilitação',
+  'Capacete e equipamentos'
+];
+
+const DEFAULT_STATE = {
+  bike:{
+    name:'Yamaha Fazer 150',year:2020,odo:0,
+    fuel:'Gasolina',plate:'',photo:''
+  },
+  fuels:[],
+  maintenance:[],
+  checklist:{},
+  preferences:{maintenanceAlerts:true,confirmDelete:true}
+};
+
+let state = loadState();
+let recordType = 'fuel';
+let editRecordId = null;
+let activeGarageTab = 'fuel';
+let chartObject = null;
+let toastTimer = null;
+
+function clone(obj){return JSON.parse(JSON.stringify(obj))}
+
+function loadState(){
+  try{
+    const raw=localStorage.getItem(STORAGE_KEY);
+    if(!raw)return clone(DEFAULT_STATE);
+    const parsed=JSON.parse(raw);
+    return {
+      bike:{...DEFAULT_STATE.bike,...(parsed.bike||{})},
+      fuels:Array.isArray(parsed.fuels)?parsed.fuels:[],
+      maintenance:Array.isArray(parsed.maintenance)?parsed.maintenance:[],
+      checklist:parsed.checklist&&typeof parsed.checklist==='object'?parsed.checklist:{},
+      preferences:{...DEFAULT_STATE.preferences,...(parsed.preferences||{})}
+    };
+  }catch(e){
+    console.error('Falha ao carregar dados:',e);
+    return clone(DEFAULT_STATE);
+  }
+}
+
+function persist(){
+  try{
+    localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
+    return true;
+  }catch(e){
+    notify('Não foi possível salvar. Exporte os dados ou libere espaço.');
+    console.error(e);
+    return false;
+  }
+}
+
+function uid(){
+  return Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,9);
+}
+function esc(value){
+  return String(value??'').replace(/[&<>"']/g,c=>({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[c]));
+}
+function num(v){const n=Number(v);return Number.isFinite(n)?n:0}
+function money(v){
+  return num(v).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+}
+function fmtNumber(v,decimals=1){
+  return num(v).toLocaleString('pt-BR',{minimumFractionDigits:decimals,maximumFractionDigits:decimals});
+}
+function dateToday(){
+  const d=new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+function formatDate(s){
+  if(!s)return 'Sem data';
+  const p=s.split('-');
+  return p.length===3?`${p[2]}/${p[1]}/${p[0]}`:s;
+}
+function monthKey(s){return (s||'').slice(0,7)}
+function currentMonth(){return dateToday().slice(0,7)}
+function notify(message){
+  document.querySelector('.toast')?.remove();
+  const el=document.createElement('div');
+  el.className='toast';el.textContent=message;
+  document.body.appendChild(el);
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>el.remove(),2800);
+}
+function navigate(page){
+  document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id==='page-'+page));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.page===page));
+  if(page==='dashboard')renderDashboard();
+  if(page==='garage')renderGarage();
+  if(page==='settings')renderSettings();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function setGarageTab(tab){
+  activeGarageTab=tab;
+  document.querySelectorAll('#garageTabs .tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));
+  document.querySelectorAll('.garage-content').forEach(el=>el.style.display=el.id==='garage-'+tab?'block':'none');
+  renderGarageContent();
+}
+function closeDialog(){document.getElementById('recordDialog').close()}
+
+function renderBike(){
+  const b=state.bike;
+  document.getElementById('heroName').textContent=b.name||'Minha motocicleta';
+  document.getElementById('heroDescription').textContent=b.plate?'Placa: '+b.plate:'Sua moto. Seus dados. Seu controle.';
+  document.getElementById('heroKm').textContent=num(b.odo).toLocaleString('pt-BR');
+  document.getElementById('heroYear').textContent=b.year||'—';
+  document.getElementById('garageName').textContent=b.name||'Minha motocicleta';
+  document.getElementById('garageSubtitle').textContent=b.plate?'PLACA · '+b.plate.toUpperCase():'RACING GARAGE · MINHA MOTO';
+  document.getElementById('garageYear').textContent=b.year||'—';
+  document.getElementById('garageOdo').textContent=num(b.odo).toLocaleString('pt-BR');
+  document.getElementById('garageFuel').textContent=b.fuel||'—';
+  const photo=document.getElementById('motorcyclePhoto');
+  const url=b.photo||'https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=1200&q=85';
+  if(photo.src!==url)photo.src=url;
+  photo.style.display='block';
+  photo.onerror=function(){this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#253326,#0a0d0a)'};
+}
+
+function monthFuelCost(){
+  return state.fuels.filter(x=>monthKey(x.date)===currentMonth()).reduce((s,x)=>s+num(x.total),0);
+}
+function monthMaintenanceCost(){
+  return state.maintenance.filter(x=>monthKey(x.date)===currentMonth()).reduce((s,x)=>s+num(x.cost),0);
+}
+function fuelCostAll(){
+  return state.fuels.reduce((s,x)=>s+num(x.total),0);
+}
+function maintenanceCostAll(){
+  return state.maintenance.reduce((s,x)=>s+num(x.cost),0);
+}
+function lastFuel(){
+  return [...state.fuels].sort((a,b)=>(b.date||'').localeCompare(a.date||'')||(b.createdAt||0)-(a.createdAt||0))[0];
+}
+function consumptionStats(){
+  const arr=[...state.fuels].filter(x=>num(x.odo)>0&&num(x.liters)>0)
+    .sort((a,b)=>num(a.odo)-num(b.odo));
+  const intervals=[];
+  for(let i=1;i<arr.length;i++){
+    const distance=num(arr[i].odo)-num(arr[i-1].odo);
+    if(distance>0)intervals.push({distance,liters:num(arr[i].liters)});
+  }
+  if(!intervals.length)return null;
+  const totalDistance=intervals.reduce((s,x)=>s+x.distance,0);
+  const totalLiters=intervals.reduce((s,x)=>s+x.liters,0);
+  if(totalLiters<=0)return null;
+  return {average:totalDistance/totalLiters,distance:totalDistance,liters:totalLiters};
+}
+function costPerKm(){
+  const stats=consumptionStats();
+  if(!stats||stats.distance<=0)return null;
+  return (fuelCostAll()+maintenanceCostAll())/stats.distance;
+}
+function renderDashboard(){
+  renderBike();
+  const stats=consumptionStats();
+  document.getElementById('avgConsumption').textContent=stats?fmtNumber(stats.average,1):'--';
+  const last=lastFuel();
+  document.getElementById('lastPrice').textContent=last?money(last.price):'--';
+  document.getElementById('monthSpend').textContent=money(monthFuelCost()+monthMaintenanceCost());
+  const cpk=costPerKm();
+  document.getElementById('costKm').textContent=cpk===null?'--':money(cpk);
+  renderRecent();
+  renderMaintenancePreview();
+  drawFuelChart();
+}
+function renderRecent(){
+  const el=document.getElementById('recentActivity');
+  const all=[
+    ...state.fuels.map(x=>({...x,kind:'fuel',label:'Abastecimento',amount:num(x.total)})),
+    ...state.maintenance.map(x=>({...x,kind:'maintenance',label:x.name||'Manutenção',amount:num(x.cost)}))
+  ].sort((a,b)=>(b.date||'').localeCompare(a.date||'')||(b.createdAt||0)-(a.createdAt||0)).slice(0,5);
+  if(!all.length){el.innerHTML='<div class="empty"><div class="empty-icon">◷</div>Nenhuma atividade registrada ainda.</div>';return}
+  el.innerHTML='<div class="list">'+all.map(x=>`
+    <div class="list-item">
+      <div class="list-icon">${x.kind==='fuel'?'⛽':'⚒'}</div>
+      <div class="list-info"><strong>${esc(x.label)}</strong><span>${formatDate(x.date)} · ${num(x.odo).toLocaleString('pt-BR')} km</span></div>
+      <div class="list-end">R$ ${money(x.amount)}</div>
+    </div>`).join('')+'</div>';
+}
+function dueStatus(item){
+  const now=num(state.bike.odo);
+  if(item.dueOdo&&num(item.dueOdo)<=now)return {label:'Vencida',cls:'pill-danger'};
+  if(item.dueOdo&&num(item.dueOdo)-now<=500)return {label:'Próxima',cls:'pill-warn'};
+  if(item.dueDate&&item.dueDate<=dateToday())return {label:'Vencida',cls:'pill-danger'};
+  if(item.dueDate){
+    const days=(new Date(item.dueDate+'T00:00:00')-new Date(dateToday()+'T00:00:00'))/86400000;
+    if(days<=30)return {label:'Próxima',cls:'pill-warn'};
+  }
+  return {label:'Em dia',cls:''};
+}
+function renderMaintenancePreview(){
+  const el=document.getElementById('maintenancePreview');
+  const due=state.maintenance.filter(x=>x.dueOdo||x.dueDate)
+    .sort((a,b)=>(a.dueDate||'9999').localeCompare(b.dueDate||'9999')||num(a.dueOdo)-num(b.dueOdo)).slice(0,4);
+  if(!due.length){el.innerHTML='<div class="empty"><div class="empty-icon">⚒</div>Cadastre uma manutenção com próxima revisão para acompanhar os prazos.</div>';return}
+  el.innerHTML='<div class="list">'+due.map(x=>{
+    const s=dueStatus(x);
+    return `<div class="list-item"><div class="list-icon">⚙</div><div class="list-info"><strong>${esc(x.name)}</strong><span>${x.dueOdo?num(x.dueOdo).toLocaleString('pt-BR')+' km':formatDate(x.dueDate)}</span></div><span class="pill ${s.cls}">${s.label}</span></div>`;
+  }).join('')+'</div>';
+}
+function drawFuelChart(){
+  const canvas=document.getElementById('fuelChart');
+  const ctx=canvas.getContext('2d');
+  const rect=canvas.getBoundingClientRect();
+  const dpr=window.devicePixelRatio||1;
+  canvas.width=Math.max(1,rect.width*dpr);
+  canvas.height=175*dpr;
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  const w=rect.width,h=175;
+  ctx.clearRect(0,0,w,h);
+  const labels=[];
+  for(let i=5;i>=0;i--){
+    const d=new Date();d.setDate(1);d.setMonth(d.getMonth()-i);
+    labels.push({key:`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`,label:d.toLocaleDateString('pt-BR',{month:'short'}).replace('.','')});
+  }
+  const values=labels.map(m=>state.fuels.filter(x=>monthKey(x.date)===m.key).reduce((s,x)=>s+num(x.total),0));
+  const max=Math.max(100,...values)*1.2;
+  const left=36,right=8,top=14,bottom=26;
+  const cw=w-left-right,ch=h-top-bottom;
+  ctx.font='10px Inter, sans-serif';
+  ctx.textBaseline='middle';
+  for(let i=0;i<4;i++){
+    const y=top+ch*i/3;
+    ctx.strokeStyle='#283329';ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(left,y);ctx.lineTo(w-right,y);ctx.stroke();
+    ctx.fillStyle='#839083';
+    ctx.textAlign='left';
+    ctx.fillText(i===0?'R$ '+Math.round(max):i===3?'0':('R$ '+Math.round(max*(1-i/3))),0,y);
+  }
+  const slot=cw/labels.length;
+  values.forEach((v,i)=>{
+    const bh=v/max*ch;
+    const bw=Math.min(25,slot*.53);
+    const x=left+i*slot+(slot-bw)/2;
+    const y=top+ch-bh;
+    ctx.fillStyle=v>0?'#c1ff72':'#273127';
+    ctx.beginPath();
+    const r=Math.min(5,bw/2,bh/2);
+    ctx.roundRect(x,y,bw,Math.max(2,bh),[r,r,2,2]);
+    ctx.fill();
+    ctx.fillStyle='#89958a';ctx.textAlign='center';
+    ctx.fillText(labels[i].label,x+bw/2,h-10);
+  });
+}
+function renderGarage(){
+  renderBike();
+  renderGarageContent();
+}
+function renderGarageContent(){
+  renderFuelList();
+  renderMaintenanceList();
+  renderChecklist();
+}
+function renderFuelList(){
+  const el=document.getElementById('fuelList');
+  const sorted=[...state.fuels].sort((a,b)=>(b.date||'').localeCompare(a.date||'')||(b.createdAt||0)-(a.createdAt||0));
+  document.getElementById('fuelCount').textContent=sorted.length+' REGISTROS';
+  if(!sorted.length){el.innerHTML='<div class="empty"><div class="empty-icon">⛽</div>Seu histórico de abastecimentos aparecerá aqui.<br><br><button class="btn btn-primary" onclick="openRecord(\'fuel\')">Registrar abastecimento</button></div>';return}
+  el.innerHTML='<div class="list">'+sorted.map(x=>`
+    <div class="list-item">
+      <div class="list-icon">⛽</div>
+      <div class="list-info"><strong>${esc(x.station||'Abastecimento')} · ${esc(x.type||'Combustível')}</strong><span>${formatDate(x.date)} · ${num(x.odo).toLocaleString('pt-BR')} km</span><span>${fmtNumber(x.liters,2)} L × R$ ${money(x.price)}${x.fullTank?' · Tanque cheio':''}</span></div>
+      <div class="list-end">R$ ${money(x.total)}<div style="margin-top:8px"><button class="btn btn-danger btn-sm" onclick="deleteRecord('fuel','${x.id}')">Excluir</button></div></div>
+    </div>`).join('')+'</div>';
+}
+function renderMaintenanceList(){
+  const el=document.getElementById('maintenanceList');
+  const sorted=[...state.maintenance].sort((a,b)=>(b.date||'').localeCompare(a.date||'')||(b.createdAt||0)-(a.createdAt||0));
+  if(!sorted.length){el.innerHTML='<div class="empty"><div class="empty-icon">⚒</div>Nenhuma manutenção registrada.<br><br><button class="btn btn-primary" onclick="openRecord(\'maintenance\')">Registrar manutenção</button></div>';return}
+  el.innerHTML='<div class="list">'+sorted.map(x=>{
+    const s=dueStatus(x);
+    return `<div class="list-item">
+      <div class="list-icon">⚒</div>
+      <div class="list-info"><strong>${esc(x.name)}</strong><span>${formatDate(x.date)} · ${num(x.odo).toLocaleString('pt-BR')} km</span><span>${x.dueOdo?'Próxima revisão: '+num(x.dueOdo).toLocaleString('pt-BR')+' km':x.dueDate?'Próxima revisão: '+formatDate(x.dueDate):'Sem próxima revisão cadastrada'}</span>${x.notes?'<span>'+esc(x.notes)+'</span>':''}</div>
+      <div class="list-end">R$ ${money(x.cost)}${(x.dueOdo||x.dueDate)?'<div style="margin-top:6px"><span class="pill '+s.cls+'">'+s.label+'</span></div>':''}<div style="margin-top:8px"><button class="btn btn-danger btn-sm" onclick="deleteRecord('maintenance','${x.id}')">Excluir</button></div></div>
+    </div>`;
+  }).join('')+'</div>';
+}
+function renderChecklist(){
+  const el=document.getElementById('checklistItems');
+  el.innerHTML=CHECK_ITEMS.map((label,i)=>`
+    <label class="check-row"><input type="checkbox" ${state.checklist[i]?'checked':''} onchange="toggleChecklist(${i},this.checked)"><span>${label}</span><small>${state.checklist[i]?'OK':'Pendente'}</small></label>
+  `).join('');
+  const done=CHECK_ITEMS.filter((_,i)=>!!state.checklist[i]).length;
+  document.getElementById('checkProgress').textContent=done+'/'+CHECK_ITEMS.length;
+  document.getElementById('checkBar').style.width=(done/CHECK_ITEMS.length*100)+'%';
+}
+function toggleChecklist(i,checked){
+  state.checklist[i]=checked;persist();renderChecklist();
+}
+function saveChecklist(){persist();notify('Checklist salvo neste aparelho.')}
+function resetChecklist(){
+  if(!confirmAction('Desmarcar todos os itens do checklist?'))return;
+  state.checklist={};persist();renderChecklist();notify('Checklist reiniciado.');
+}
+function renderSettings(){
+  document.getElementById('bikeName').value=state.bike.name||'';
+  document.getElementById('bikeYear').value=state.bike.year||'';
+  document.getElementById('bikeOdo').value=num(state.bike.odo);
+  document.getElementById('bikeFuel').value=state.bike.fuel||'Gasolina';
+  document.getElementById('bikePlate').value=state.bike.plate||'';
+  document.getElementById('bikePhoto').value=state.bike.photo||'';
+  document.getElementById('maintenanceAlerts').checked=!!state.preferences.maintenanceAlerts;
+  document.getElementById('confirmDelete').checked=!!state.preferences.confirmDelete;
+  document.getElementById('settingFuelCount').textContent=state.fuels.length+' registros';
+  document.getElementById('settingMaintCount').textContent=state.maintenance.length+' registros';
+}
+document.getElementById('bikeForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const year=num(document.getElementById('bikeYear').value);
+  const odo=num(document.getElementById('bikeOdo').value);
+  if(year<1950||year>2100||odo<0){notify('Confira o ano e a quilometragem.');return}
+  state.bike={
+    name:document.getElementById('bikeName').value.trim(),
+    year,odo,
+    fuel:document.getElementById('bikeFuel').value,
+    plate:document.getElementById('bikePlate').value.trim(),
+    photo:document.getElementById('bikePhoto').value.trim()
+  };
+  if(persist()){renderAll();notify('Dados da motocicleta salvos.')}
+});
+function savePreferences(){
+  state.preferences.maintenanceAlerts=document.getElementById('maintenanceAlerts').checked;
+  state.preferences.confirmDelete=document.getElementById('confirmDelete').checked;
+  persist();notify('Preferências salvas.');
+}
+
+function field(name,label,type='text',opts={}){
+  const full=opts.full?' full-field':'';
+  let control='';
+  if(type==='select'){
+    control=`<select id="f_${name}" ${opts.required?'required':''}>${opts.options.map(o=>`<option value="${esc(o)}">${esc(o)}</option>`).join('')}</select>`;
+  }else if(type==='textarea'){
+    control=`<textarea id="f_${name}" placeholder="${esc(opts.placeholder||'')}"></textarea>`;
+  }else{
+    control=`<input id="f_${name}" type="${type}" ${opts.required?'required':''} ${opts.min!==undefined?'min="'+opts.min+'"':''} ${opts.step?'step="'+opts.step+'"':''} ${opts.max!==undefined?'max="'+opts.max+'"':''} placeholder="${esc(opts.placeholder||'')}">`;
+  }
+  return `<div class="field${full}"><label for="f_${name}">${label}</label>${control}</div>`;
+}
+function openRecord(type,id=null){
+  recordType=type;editRecordId=id;
+  const form=document.getElementById('recordFields');
+  const title=document.getElementById('dialogTitle');
+  const submit=document.getElementById('recordSubmit');
+  let old=null;
+  if(id){
+    old=(type==='fuel'?state.fuels:type==='maintenance'?state.maintenance:[]).find(x=>x.id===id)||null;
+  }
+  if(type==='bike'){
+    navigate('settings');
+    return;
+  }
+  const currentOdo=num(state.bike.odo);
+  if(type==='fuel'){
+    title.textContent=old?'Editar abastecimento':'Novo abastecimento';
+    form.innerHTML=`<div class="form-grid">
+      ${field('date','Data','date',{required:true})}
+      ${field('odo','Quilometragem (km)','number',{required:true,min:0,step:1})}
+      ${field('liters','Litros abastecidos','number',{required:true,min:.01,step:.01})}
+      ${field('price','Preço por litro (R$)','number',{required:true,min:0,step:.001})}
+      ${field('total','Valor total (R$)','number',{required:true,min:0,step:.01})}
+      ${field('type','Combustível','select',{options:['Gasolina','Etanol','Diesel','Outro']})}
+      ${field('station','Posto / observação','text',{full:true,placeholder:'Nome do posto (opcional)'})}
+      <div class="field full-field"><label><input id="f_fullTank" type="checkbox" checked style="accent-color:var(--green);margin-right:8px">Abastecimento com tanque cheio</label></div>
+    </div>`;
+    document.getElementById('recordForm').dataset.mode='fuel';
+    setField('date',old?.date||dateToday());
+    setField('odo',old?.odo??currentOdo);
+    setField('liters',old?.liters??'');
+    setField('price',old?.price??'');
+    setField('total',old?.total??'');
+    setField('type',old?.type||state.bike.fuel||'Gasolina');
+    setField('station',old?.station||'');
+    document.getElementById('f_fullTank').checked=old?.fullTank??true;
+    const liters=document.getElementById('f_liters');
+    const price=document.getElementById('f_price');
+    const total=document.getElementById('f_total');
+    liters.addEventListener('input',()=>{if(price.value&&!total.dataset.manual)total.value=(num(liters.value)*num(price.value)).toFixed(2)});
+    price.addEventListener('input',()=>{if(liters.value&&!total.dataset.manual)total.value=(num(liters.value)*num(price.value)).toFixed(2)});
+    total.addEventListener('input',()=>{total.dataset.manual='1'});
+    liters.addEventListener('input',()=>{delete total.dataset.manual});
+    price.addEventListener('input',()=>{delete total.dataset.manual});
+  }else{
+    title.textContent=old?'Editar manutenção':'Nova manutenção';
+    form.innerHTML=`<div class="form-grid">
+      ${field('name','Serviço / peça','select',{required:true,options:['Troca de óleo','Filtro de óleo','Filtro de ar','Relação / corrente','Pneus','Freios','Velas','Bateria','Revisão geral','Elétrica','Suspensão','Outro']})}
+      ${field('date','Data do serviço','date',{required:true})}
+      ${field('odo','Quilometragem (km)','number',{required:true,min:0,step:1})}
+      ${field('cost','Custo total (R$)','number',{required:true,min:0,step:.01})}
+      ${field('dueOdo','Próxima revisão (km)','number',{min:0,step:1,placeholder:'Opcional'})}
+      ${field('dueDate','Próxima revisão (data)','date')}
+      ${field('notes','Observações','textarea',{full:true,placeholder:'Peças, oficina, detalhes...'})}
+    </div>`;
+    document.getElementById('recordForm').dataset.mode='maintenance';
+    setField('name',old?.name||'Troca de óleo');
+    setField('date',old?.date||dateToday());
+    setField('odo',old?.odo??currentOdo);
+    setField('cost',old?.cost??'');
+    setField('dueOdo',old?.dueOdo??'');
+    setField('dueDate',old?.dueDate||'');
+    setField('notes',old?.notes||'');
+  }
+  submit.textContent=old?'Salvar alterações':'Salvar registro';
+  document.getElementById('recordDialog').showModal();
+}
+function setField(name,value){
+  const el=document.getElementById('f_'+name);
+  if(el)el.value=value??'';
+}
+function confirmAction(message){
+  return !state.preferences.confirmDelete||confirm(message);
+}
+document.getElementById('recordForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const type=recordType;
+  if(type==='fuel'){
+    const liters=num(document.getElementById('f_liters').value);
+    const price=num(document.getElementById('f_price').value);
+    const total=num(document.getElementById('f_total').value);
+    const odo=num(document.getElementById('f_odo').value);
+    if(liters<=0||price<0||total<0||odo<0){notify('Confira os dados do abastecimento.');return}
+    const rec={
+      id:editRecordId||uid(),date:document.getElementById('f_date').value,
+      odo,liters,price,total,type:document.getElementById('f_type').value,
+      station:document.getElementById('f_station').value.trim(),
+      fullTank:document.getElementById('f_fullTank').checked,createdAt:Date.now()
+    };
+    if(!rec.date){notify('Informe a data.');return}
+    const arr=state.fuels;
+    if(editRecordId){const i=arr.findIndex(x=>x.id===editRecordId);if(i>=0)arr[i]=rec;else arr.push(rec)}
+    else arr.push(rec);
+    if(odo>num(state.bike.odo))state.bike.odo=odo;
+  }else{
+    const odo=num(document.getElementById('f_odo').value);
+    const cost=num(document.getElementById('f_cost').value);
+    const dueOdo=document.getElementById('f_dueOdo').value;
+    const rec={
+      id:editRecordId||uid(),name:document.getElementById('f_name').value,
+      date:document.getElementById('f_date').value,odo,cost,
+      dueOdo:dueOdo===''?null:num(dueOdo),
+      dueDate:document.getElementById('f_dueDate').value||null,
+      notes:document.getElementById('f_notes').value.trim(),createdAt:Date.now()
+    };
+    if(!rec.date||odo<0||cost<0){notify('Confira os dados da manutenção.');return}
+    const arr=state.maintenance;
+    if(editRecordId){const i=arr.findIndex(x=>x.id===editRecordId);if(i>=0)arr[i]=rec;else arr.push(rec)}
+    else arr.push(rec);
+    if(odo>num(state.bike.odo))state.bike.odo=odo;
+  }
+  if(persist()){
+    closeDialog();renderAll();
+    notify(type==='fuel'?'Abastecimento salvo.':'Manutenção salva.');
+  }
+});
+function deleteRecord(type,id){
+  if(!confirmAction('Deseja excluir este registro?'))return;
+  if(type==='fuel')state.fuels=state.fuels.filter(x=>x.id!==id);
+  else state.maintenance=state.maintenance.filter(x=>x.id!==id);
+  persist();renderAll();notify('Registro excluído.');
+}
+function clearAllData(){
+  if(!confirm('Isso apagará a moto cadastrada, os abastecimentos, manutenções e checklist deste navegador. Faça backup antes. Continuar?'))return;
+  localStorage.removeItem(STORAGE_KEY);
+  state=clone(DEFAULT_STATE);
+  persist();renderAll();navigate('dashboard');
+  notify('Dados locais apagados.');
+}
+function renderAll(){
+  renderDashboard();renderGarage();renderSettings();
+}
+function exportData(){
+  const backup={
+    app:'MotoCheck Pro',version:1,exportedAt:new Date().toISOString(),state
+  };
+  const blob=new Blob([JSON.stringify(backup,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download='motocheck-pro-backup-'+dateToday()+'.json';
+  document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+  notify('Backup preparado para exportação.');
+}
+function importData(event){
+  const file=event.target.files?.[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=()=>{
+    try{
+      const data=JSON.parse(reader.result);
+      const incoming=data.state||data;
+      if(!incoming.bike||!Array.isArray(incoming.fuels)||!Array.isArray(incoming.maintenance)){
+        throw new Error('Formato de backup inválido');
+      }
+      if(!confirm('Importar este backup substituirá os dados atuais. Deseja continuar?'))return;
+      state={
+        bike:{...DEFAULT_STATE.bike,...incoming.bike},
+        fuels:incoming.fuels.map(x=>({...x,id:String(x.id||uid())})),
+        maintenance:incoming.maintenance.map(x=>({...x,id:String(x.id||uid())})),
+        checklist:incoming.checklist&&typeof incoming.checklist==='object'?incoming.checklist:{},
+        preferences:{...DEFAULT_STATE.preferences,...(incoming.preferences||{})}
+      };
+      if(persist()){renderAll();navigate('dashboard');notify('Backup importado com sucesso.')}
+    }catch(err){
+      console.error(err);notify('Arquivo inválido. Selecione um backup MotoCheck Pro.');
+    }finally{event.target.value=''}
+  };
+  reader.readAsText(file);
+}
+window.addEventListener('resize',()=>{
+  if(document.getElementById('page-dashboard').classList.contains('active'))drawFuelChart();
+});
+document.addEventListener('visibilitychange',()=>{
+  if(!document.hidden&&document.getElementById('page-dashboard').classList.contains('active'))drawFuelChart();
+});
+
+// Inicialização
+renderAll();
+</script>
+</body>
+</html>
